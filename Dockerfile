@@ -8,10 +8,14 @@ RUN set -ex \
     && apk add --no-cache nodejs npm yarn nginx autoconf g++ make libpng-dev curl icu-dev \
     && pecl install redis \
     && docker-php-ext-enable redis
+
 # GD
 RUN apk add freetype-dev libjpeg-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd opcache pdo_mysql sockets fileinfo
+
+# Other Tools
+RUN apk add redis git mysql-client
 
 RUN { \
         echo 'opcache.memory_consumption=128'; \
